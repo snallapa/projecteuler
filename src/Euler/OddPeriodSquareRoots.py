@@ -1,4 +1,4 @@
-import math, numpy
+import math, time
 def period(n):
 	m = 0
 	d = 1
@@ -11,12 +11,13 @@ def period(n):
 		a = int(math.floor(float((a0 + m))/d))
 		period.append(a)
 	return period
-
+start = time.time()
 count = 0
 for i in xrange(2,10001):
 	if math.sqrt(i).is_integer():
 		continue
 	if len(period(i)) % 2 == 1:
 		count = count + 1
-
+end = time.time()
 print count
+print (end - start) * 1000

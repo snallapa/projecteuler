@@ -1,37 +1,39 @@
-primeDictionary = {}
+
 def primes(n):
     primfac = set([])
     d = 2
     while d*d <= n:
-        if primeDictionary.get(n, None) != None:
-            primfac.update(primeDictionary.get(n))
-            break
         while (n % d) == 0:
             primfac.add(d)  # supposing you want multiple factors repeated
             n //= d
         d += 1
-    if n > 1 and len(primfac) <2:
+    if n > 1:
        primfac.add(n)
-    primeDictionary[n] = primfac
     return primfac
 
 def totient(n):
-	count = 1
-	primesList = primes(n)
-	product = 1
-	for prime in primesList:
-		product = product*float(1 - 1/float(prime))
-	return n*product
-def checkPermutation(num, num2):
-    return set([int(x) for x in str(num)]) == set([int(x) for x in str(num2)])
-min = 2/totient(2)
-minN = 2
-for n in xrange(2,10000000):
-    totientN = totient(n)
-    if checkPermutation(n, int(totientN)):
-        print n
-        if n/totientN < min:
+    primesList = list(primes(n))
+    if len(primesList) != 2:
+        return 1
+    numerator = 1
+    denominator = 1
+    for prime in primesList:
+        numerator = (prime - 1) * numerator
+        denominator = prime * denominator
+    return n * numerator/denominator
 
+def checkPermutation(num, num2):
+    num1List = sorted([int(x) for x in str(num)])
+    num2List = sorted([int(x) for x in str(num2)])
+    return num1List == num2List
+
+minTotient = 2/float(totient(2))
+minN = 2
+for n in xrange(3,10000000, 2):
+    totientN = totient(n)
+    if checkPermutation(n, totientN):
+        if float(n)/totientN < minTotient:
+            print str(n) + " " + str(totientN)
             minN = n
-            min = n/totientN
+            minTotient = float(n)/totientN
 print minN
