@@ -1,18 +1,38 @@
-def is_square(n):
-    return n**0.5 == int(n**0.5)
-answer = 0
-for p in range(1500000):
-    count = 0
-    for h in range(p):
-         a = 2
-         b = -2 * (p - h)
-         c = p * p - 2 * p * h
-         desc = b*b - 4 * a * c
-         leg1 = (-b + desc**0.5)/(2 * a)
-         leg2 = (-b - desc**0.5)/(2 * a)
-         if desc >=0 and is_square(desc) and leg1 > 0 and leg2 > 0:
-             count = count + 1
-    if count == 1:
-        answer = answer + 1
+import time
+from fractions import gcd
+start = time.time()
+limit = 1500000
+ppts = {}
+for p in range(0, limit, 2):
+    s = p/2
+    sqS = int(s**0.5)
+    sqtS = int((2 * s)**0.5) + 1
+    if sqS % 2 == 0:
+        sqS -= 1
+    possible = 0
+    for v in range(sqS, sqtS, 2):
+        if s % v == 0:
+            u = s/v
+            if u < v and gcd(u, v) == 1:
+                possible = possible + 1
+    if possible == 1:
+        ppts[p] = possible
 
-print(answer)        
+answer = 0
+pts = {}
+for k, v in ppts.items():
+    pts[k] = pts.get(k, 0) + 1
+    s = 2
+    while True:
+        nxt = k * s
+        if nxt > limit:
+            break
+        pts[nxt] = pts.get(nxt, 0) + 1
+        s += 1
+for k, v in pts.items():
+    if v == 1:
+        answer += 1
+end = time.time()
+print(answer)
+print(str((end - start) * 1000) + "ms")
+
