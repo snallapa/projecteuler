@@ -1,37 +1,18 @@
-# not an optimized method by far probably my worst one
-import time
+def is_square(n):
+    return n**0.5 == int(n**0.5)
+answer = 0
+for p in range(1500000):
+    count = 0
+    for h in range(p):
+         a = 2
+         b = -2 * (p - h)
+         c = p * p - 2 * p * h
+         desc = b*b - 4 * a * c
+         leg1 = (-b + desc**0.5)/(2 * a)
+         leg2 = (-b - desc**0.5)/(2 * a)
+         if desc >=0 and is_square(desc) and leg1 > 0 and leg2 > 0:
+             count = count + 1
+    if count == 1:
+        answer = answer + 1
 
-def checkRightTriangle(a, b ,c):
-	return a**2 + b**2 == c**2
-
-def generateRightTriangle(p):
-	listTriangles = []
-	for a in xrange(1,p):
-		for b in xrange(1,p-a):
-			c = p - a - b
-			if c < 0:
-				continue
-			if c + b < a:
-				continue
-			if b + a < c:
-				continue
-			if a + c < b:
-				continue
-			if checkRightTriangle(a,b,c):
-				setTriangle = set([a,b,c])
-				if setTriangle not in listTriangles:
-					listTriangles.append(setTriangle)
-	return listTriangles
-#assertion
-#print generateRightTriangle(120)
-indexP = 0
-longestCount = 0
-start = time.time()
-for i in xrange(1,1001):
-	currentCount = len(generateRightTriangle(i))
-	if currentCount > longestCount:
-		indexP = i
-		longestCount = currentCount
-end = time.time()
-print end - start
-print indexP
+print(answer)        
