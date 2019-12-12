@@ -23,7 +23,9 @@ for a in range(1, 100):
 		if newA/float(newB) == a/float(b) and a/float(b) < 1:
 			denom.append(b)
 			numerator.append(a)
-num = reduce(lambda x, y: x*y, numerator)
-dum = reduce(lambda x, y: x*y, denom)
-print num
-print dum
+print(numerator)
+print(denom)
+# num = reduce(lambda x, y: x*y, numerator)
+# dum = reduce(lambda x, y: x*y, denom)
+# print num
+# print dum
